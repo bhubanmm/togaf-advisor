@@ -1,0 +1,21 @@
+name: Package and attach skill on release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Package skill file
+        run: zip -r togaf-advisor.skill . -x "*.git*" -x ".github/*"
+
+      - name: Attach skill to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: togaf-advisor.skill
